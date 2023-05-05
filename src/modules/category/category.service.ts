@@ -31,7 +31,8 @@ export class CategoryService {
 
   async update(id: string, body: UpdateCategoryDto) {
     await this.findOne(id);
-    this.update(id, body);
+    await this.categoryRepo.update(id, body);
+    return this.findOne(id);
   }
 
   async remove(id: string) {
