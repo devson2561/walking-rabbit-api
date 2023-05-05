@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from './entities/category.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private categoryRepo: Repository<Category>,
+  ) {}
+
+  create(body: CreateCategoryDto) {
+    return this.categoryRepo.create(body);
   }
 
   findAll() {
-    return `This action returns all category`;
+    return this.categoryRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: string) {
+    const data = await this.categoryRepo.findOne({ where: { id } });
+    if (!data) {
+      throw new HttpException('Invalid category id.', 400);
+    }
+    return data;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: string, body: UpdateCategoryDto) {
+    await this.findOne(id);
+    this.update(id, body);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: string) {
+    await this.findOne(id);
+    await this.categoryRepo.delete(id);
+    return {
+      success: true,
+    };
   }
 }
