@@ -13,7 +13,8 @@ export class CategoryService {
   ) {}
 
   create(body: CreateCategoryDto) {
-    return this.categoryRepo.create(body);
+    const data = this.categoryRepo.create(body);
+    return this.categoryRepo.save(data);
   }
 
   findAll() {
