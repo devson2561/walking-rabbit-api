@@ -12,11 +12,8 @@ export class Ingredient extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column()
   title: string;
-
-  @Column({ type: 'float', default: 0 })
-  available: number;
 
   @Column()
   unit: string;

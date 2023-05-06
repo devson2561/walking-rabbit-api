@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   db:
-    image: postgres:15.2-alpine
+    image: postgis/postgis:15-3.3-alpine
     networks:
       - walking_rabbit_api_network
     environment:

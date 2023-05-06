@@ -1,0 +1,47 @@
+[
+  {
+    "id": "84fc1e57-0c33-4c87-b70d-6d4a92432df4",
+    "title": "Coffee",
+    "unit": "ml"
+  },
+  {
+    "id": "d7e9c735-90cb-4b0d-8e7b-364c2fb6f0f9",
+    "title": "Water",
+    "unit": "ml"
+  },
+  {
+    "id": "6a023a6f-4b96-4e4c-b6f8-6ce5e6e4657d",
+    "title": "Soda",
+    "unit": "ml"
+  },
+  {
+    "id": "21520c32-8316-4382-aeb8-7351a2c04e36",
+    "title": "Base Cola",
+    "unit": "ml"
+  },
+  {
+    "id": "fffbafca-9b61-444d-8d61-eb69c22260f7",
+    "title": "Ice",
+    "unit": "g"
+  },
+  {
+    "id": "e55c7980-6b26-48f8-ae7c-f6a4f9edc62d",
+    "title": "Thai tea powder",
+    "unit": "g"
+  },
+  {
+    "id": "29f9dab6-c1cf-4f02-b0e2-b7d4dc792f8d",
+    "title": "Taiwan tea powder",
+    "unit": "g"
+  },
+  {
+    "id": "dd7a9586-6893-4828-8fa3-6ea3c6b29196",
+    "title": "Milk",
+    "unit": "ml"
+  },
+  {
+    "id": "29a66a45-bb91-4063-a8b9-1ab98d3ad4e1",
+    "title": "Energy drink",
+    "unit": "ml"
+  }
+]
