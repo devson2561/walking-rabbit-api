@@ -58,7 +58,7 @@ export class BeverageService {
   }
 
   findAll() {
-    return this.beverageRepo.find();
+    return this.beverageRepo.find({ relations: ['category'] });
   }
 
   async findOne(id: string) {
