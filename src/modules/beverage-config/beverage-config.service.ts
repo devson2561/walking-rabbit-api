@@ -17,7 +17,7 @@ export class BeverageConfigService {
 
     @InjectDataSource() private dataSource: DataSource,
   ) {
-    this.seed();
+    // this.seed();
   }
 
   async seed() {
@@ -35,7 +35,6 @@ export class BeverageConfigService {
 
     try {
       for (const s of nonExistData) {
-        console.log(s, ' <------- s');
         await queryRunner.manager.save(this.beverageConfigRepo.create(s));
       }
       await queryRunner.commitTransaction();

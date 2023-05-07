@@ -1,0 +1,15 @@
+[
+  {
+    "id": "",
+    "title": "Americano",
+    "configs": [
+      "00A90E23-8126-469F-A743-20DF688E203E",
+      "3B3B2015-C6EE-4050-AD81-C0012687C683",
+      "0601E9CB-5FC2-4958-89CE-908D221FAF5A"
+    ],
+    "ingredients": [
+      { "ingredient_id": "dfca6651-47d2-4595-a003-3121b59ee39c", "usage": 60 },
+      { "ingredient_id": "d7e9c735-90cb-4b0d-8e7b-364c2fb6f0f9", "usage": 60 }
+    ]
+  }
+]

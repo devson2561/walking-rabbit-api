@@ -1,9 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BeverageService } from './beverage.service';
 import { CreateBeverageDto } from './dto/create-beverage.dto';
 import { UpdateBeverageDto } from './dto/update-beverage.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('beverage')
+@ApiTags('Beverage')
+@Controller('api/beverages')
 export class BeverageController {
   constructor(private readonly beverageService: BeverageService) {}
 
@@ -19,16 +29,19 @@ export class BeverageController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.beverageService.findOne(+id);
+    return this.beverageService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBeverageDto: UpdateBeverageDto) {
-    return this.beverageService.update(+id, updateBeverageDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateBeverageDto: UpdateBeverageDto,
+  ) {
+    return this.beverageService.update(id, updateBeverageDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.beverageService.remove(+id);
+    return this.beverageService.remove(id);
   }
 }
