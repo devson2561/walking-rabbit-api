@@ -1,0 +1,38 @@
+[
+  {
+    "id": "00A90E23-8126-469F-A743-20DF688E203E",
+    "key": "Sweetness",
+    "value": "default"
+  },
+  {
+    "id": "3B3B2015-C6EE-4050-AD81-C0012687C683",
+    "key": "Sweetness",
+    "value": "Less sugar"
+  },
+  {
+    "id": "0601E9CB-5FC2-4958-89CE-908D221FAF5A",
+    "key": "Sweetness",
+    "value": "More sugar"
+  },
+  {
+    "id": "0BB987F9-E6CD-44CB-A5F8-7FCA75A51E8C",
+    "key": "Option",
+    "value": "Straw"
+  },
+  {
+    "id": "F66D344C-5901-4231-9AF6-77F6459D2C17",
+    "key": "Option",
+    "value": "Cup Cover"
+  },
+    {
+    "id": "FEC70FEA-E961-4392-BB7C-9B56F1BA01A1",
+    "key": "Type",
+    "value": "Hot"
+  },
+  {
+    "id": "7D5B68C0-3910-4B2E-90A8-666E83E97FAC",
+    "key": "Option",
+    "value": "Cold",
+    "additional_price": 5
+  }
+]

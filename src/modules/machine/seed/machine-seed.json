@@ -1,0 +1,57 @@
+[
+    {
+      "id": "77db4a0c-71e5-4f54-b2c8-365b4a7d4994",
+      "title": "CentralWorld",
+      "location": [13.746986, 100.539108]
+    },
+    {
+      "id": "129a7cc9-04d4-4e51-97e1-7f67a75d93ec",
+      "title": "Siam Paragon",
+      "location": [13.746781, 100.534285]
+    },
+    {
+      "id": "d6b2a667-9f6d-40a3-93a3-38f0c3aebcf6",
+      "title": "CentralPlaza WestGate",
+      "location": [13.813684, 100.327771]
+    },
+    {
+      "id": "87eb36f8-13d7-45f2-94f7-58780e9f89a1",
+      "title": "CentralFestival EastVille",
+      "location": [13.808669, 100.612297]
+    },
+    {
+      "id": "7c65fb75-ec5a-47f9-81f7-1568a5ed7cbf",
+      "title": "ICONSIAM",
+      "location": [13.725583, 100.507071]
+    },
+    {
+      "id": "e2f29c12-8af8-4d4a-9d15-4f9caad1a4f4",
+      "title": "The Mall Bangkae",
+      "location": [13.703940, 100.428447]
+    },
+    {
+      "id": "b7d6e2a2-dacd-4489-8bb7-55f452b9266b",
+      "title": "Emporium",
+      "location": [13.729876, 100.569319]
+    },
+    {
+      "id": "f67c8b05-647e-4de3-9873-3f9347e52f03",
+      "title": "Mega Bangna",
+      "location": [13.657144, 100.727792]
+    },
+    {
+      "id": "4c4f3ca3-fb94-4f60-b7dc-585b1939c7a1",
+      "title": "CentralPlaza Grand Rama 9",
+      "location": [13.769248, 100.574583]
+    },
+    {
+      "id": "8f31080b-eeb6-4526-83d9-7ec93d78ce6f",
+      "title": "Central Festival Chiang Mai",
+      "location": [18.791556, 98.985712]
+    },
+    {
+      "id": "d0e7bb11-4c14-4ec3-b9c9-ebad4c0e5565",
+      "title": "CentralPlaza Chaengwattana",
+      "location": [13.903952, 100.554311]
+    }
+]

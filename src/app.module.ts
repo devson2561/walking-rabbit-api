@@ -10,6 +10,8 @@ import { CategoryModule } from './modules/category/category.module';
 import { BeverageModule } from './modules/beverage/beverage.module';
 import { IngredientModule } from './modules/ingredient/ingredient.module';
 import { AttributeModule } from './modules/attribute/attribute.module';
+import { MachineModule } from './modules/machine/machine.module';
+import { BeverageConfigModule } from './modules/beverage-config/beverage-config.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { AttributeModule } from './modules/attribute/attribute.module';
     BeverageModule,
     IngredientModule,
     AttributeModule,
+    MachineModule,
+    BeverageConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],
