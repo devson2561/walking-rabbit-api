@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { DataSource, In, Point, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
@@ -7,6 +7,7 @@ import { UpdateMachineDto } from './dto/update-machine.dto';
 import { Machine } from './entities/machine.entity';
 
 import seedData from './seed/machine-seed.json';
+import { UpdateCategoryDto } from '../category/dto/update-category.dto';
 
 @Injectable()
 export class MachineService {
@@ -19,7 +20,7 @@ export class MachineService {
     this.seed();
   }
 
-  async seed() {
+  async seed(): Promise<void> {
     const seedIds = seedData.map((s) => s.id);
     const exists = await this.machineRepo.find({
       where: { id: In(seedIds) },
@@ -53,23 +54,40 @@ export class MachineService {
     }
   }
 
-  create(createMachineDto: CreateMachineDto) {
-    return 'This action adds a new machine';
+  create(body: CreateMachineDto): Promise<Machine> {
+    const data = this.machineRepo.create({
+      ...body,
+      location: {
+        type: 'Point',
+        coordinates: body.location,
+      },
+    });
+    return this.machineRepo.save(data);
   }
 
-  findAll() {
+  findAll(): Promise<Machine[]> {
     return this.machineRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} machine`;
+  async findOne(id: string): Promise<Machine> {
+    const data = await this.machineRepo.findOne({ where: { id } });
+    if (!data) {
+      throw new HttpException('Invalid category id.', 400);
+    }
+    return data;
   }
 
-  update(id: number, updateMachineDto: UpdateMachineDto) {
-    return `This action updates a #${id} machine`;
+  async update(id: string, body: UpdateCategoryDto): Promise<object> {
+    await this.findOne(id);
+    await this.machineRepo.update(id, body);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} machine`;
+  async remove(id: string): Promise<object> {
+    await this.findOne(id);
+    await this.machineRepo.delete(id);
+    return {
+      success: true,
+    };
   }
 }

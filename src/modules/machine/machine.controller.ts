@@ -11,6 +11,7 @@ import { MachineService } from './machine.service';
 import { CreateMachineDto } from './dto/create-machine.dto';
 import { UpdateMachineDto } from './dto/update-machine.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Machine } from './entities/machine.entity';
 
 @ApiTags('Machine')
 @Controller('api/machines')
@@ -29,16 +30,16 @@ export class MachineController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.machineService.findOne(+id);
+    return this.machineService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMachineDto: UpdateMachineDto) {
-    return this.machineService.update(+id, updateMachineDto);
+    return this.machineService.update(id, updateMachineDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.machineService.remove(+id);
+    return this.machineService.remove(id);
   }
 }
