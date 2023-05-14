@@ -12,6 +12,7 @@ import { IngredientModule } from './modules/ingredient/ingredient.module';
 import { AttributeModule } from './modules/attribute/attribute.module';
 import { MachineModule } from './modules/machine/machine.module';
 import { BeverageConfigModule } from './modules/beverage-config/beverage-config.module';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { BeverageConfigModule } from './modules/beverage-config/beverage-config.
     AttributeModule,
     MachineModule,
     BeverageConfigModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

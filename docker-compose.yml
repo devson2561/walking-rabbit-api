@@ -13,24 +13,35 @@ services:
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - ../db-data:/data/postgres
+      - ../db-data-final:/data/postgres
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
-  redis:
-    image: 'redis:alpine'
-    command: redis-server --save 20 1 --loglevel warning
+  api:
+    depends_on:
+      db:
+        condition: service_healthy
+    build: .
+    restart: always
+    tty: true
     ports:
-      - '6379:6379'
+      - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SERVER_PORT: ${SERVER_PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./:/var/www/api
+      - /var/www/api/node_modules
+      - /tmp/uploads2:/tmp/uploads
     networks:
       - walking_rabbit_api_network
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 1s
-      timeout: 3s
-      retries: 30
 networks:
   walking_rabbit_api_network:
 volumes:

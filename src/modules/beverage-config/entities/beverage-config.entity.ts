@@ -11,6 +11,12 @@ export class BeverageConfig extends BaseEntity {
   @Column()
   value: string;
 
+  @Column({ default: false })
+  is_multiple: boolean;
+
+  @Column({ default: false })
+  is_default: boolean;
+
   @Column({ type: 'int', nullable: false, default: 0 })
   additional_price: number;
 }

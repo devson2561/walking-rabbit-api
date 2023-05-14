@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { BeverageIngredient } from './beverage-ingredient.entity';
 import { Category } from 'src/modules/category/entities/category.entity';
+import { BeverageProcess } from 'src/interfaces/beverage-process.interface';
 
 @Entity('beverages')
 export class Beverage extends BaseEntity {
@@ -20,6 +21,9 @@ export class Beverage extends BaseEntity {
 
   @Column()
   title: string;
+
+  @Column({ type: 'int', default: 0 })
+  price: number;
 
   @Column()
   category_id: string;
@@ -37,4 +41,7 @@ export class Beverage extends BaseEntity {
     (beverageIngredient) => beverageIngredient.beverage,
   )
   ingredients: BeverageIngredient[];
+
+  @Column({ type: 'json', nullable: true })
+  processes: BeverageProcess[];
 }

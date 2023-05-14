@@ -58,7 +58,7 @@ export class BeverageService {
   }
 
   findAll() {
-    return this.beverageRepo.find({ relations: ['category'] });
+    return this.beverageRepo.find({ relations: ['category', 'ingredients'] });
   }
 
   async findOne(id: string) {
@@ -87,6 +87,10 @@ export class BeverageService {
       data.configs = configs;
     }
 
+    if (body.processes) {
+      data.processes = body.processes;
+    }
+
     await this.beverageRepo.save(data);
 
     return data;
@@ -98,5 +102,17 @@ export class BeverageService {
     return {
       success: true,
     };
+  }
+
+  async findIngredientsOfBeverages(
+    berverageIds: string[],
+  ): Promise<BeverageIngredient[]> {
+    const data = await this.beverageIngredientRepo
+      .createQueryBuilder('data')
+      .where({ beverage_id: In(berverageIds) })
+      .distinctOn(['ingredient_id'])
+      .leftJoinAndSelect('data.ingredient', 'ingredient')
+      .getMany();
+    return data;
   }
 }

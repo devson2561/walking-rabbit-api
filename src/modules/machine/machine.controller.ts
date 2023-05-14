@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { MachineService } from './machine.service';
 import { CreateMachineDto } from './dto/create-machine.dto';
@@ -41,5 +42,23 @@ export class MachineController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.machineService.remove(id);
+  }
+
+  @Get(':id/beverages')
+  findBeverages(
+    @Param('id') id: string,
+    @Query('categoryId') categoryId?: string,
+  ) {
+    return this.machineService.findBeverages(id, categoryId);
+  }
+
+  @Get(':id/stocks')
+  findStocks(@Param('id') id: string) {
+    return this.machineService.findMachineStocks(id);
+  }
+
+  @Post(':id/orders')
+  createOrder(@Param('id') id: string) {
+    return this.machineService.findMachineStocks(id);
   }
 }

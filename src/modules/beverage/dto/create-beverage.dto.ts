@@ -14,6 +14,11 @@ export class CreateBeverageDto {
   title: string;
 
   @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  price: number;
+
+  @ApiProperty()
   @IsArray()
   @IsNotEmpty()
   configs: string[];
@@ -22,6 +27,28 @@ export class CreateBeverageDto {
   @IsArray()
   @IsNotEmpty()
   ingredients: CreateBeverageIngredientDto[];
+
+  @ApiProperty()
+  @IsArray()
+  @IsNotEmpty()
+  processes: ProcessDto[];
+}
+
+export class ProcessDto {
+  @ApiProperty()
+  @IsArray()
+  @IsNotEmpty()
+  title: string;
+
+  @ApiProperty()
+  @IsArray()
+  @IsNotEmpty()
+  duration: number;
+
+  @ApiProperty()
+  @IsArray()
+  @IsNotEmpty()
+  index: number;
 }
 
 export class CreateBeverageIngredientDto {

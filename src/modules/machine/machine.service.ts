@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { DataSource, In, Point, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
 import { CreateMachineDto } from './dto/create-machine.dto';
@@ -7,13 +7,20 @@ import { UpdateMachineDto } from './dto/update-machine.dto';
 import { Machine } from './entities/machine.entity';
 
 import seedData from './seed/machine-seed.json';
-import { UpdateCategoryDto } from '../category/dto/update-category.dto';
+import { MachineStock } from './entities/machine-stock.entity';
+import { Beverage } from '../beverage/entities/beverage.entity';
 
 @Injectable()
 export class MachineService {
   constructor(
     @InjectRepository(Machine)
     private machineRepo: Repository<Machine>,
+
+    @InjectRepository(MachineStock)
+    private machineStockRepo: Repository<MachineStock>,
+
+    @InjectRepository(Beverage)
+    private beverageRepo: Repository<Beverage>,
 
     @InjectDataSource() private dataSource: DataSource,
   ) {
@@ -54,15 +61,58 @@ export class MachineService {
     }
   }
 
-  create(body: CreateMachineDto): Promise<Machine> {
+  async create(body: CreateMachineDto): Promise<Machine> {
+    const { title, location, stocks, beverages: beverage_ids } = body;
+    // create machine
     const data = this.machineRepo.create({
-      ...body,
+      title,
       location: {
         type: 'Point',
-        coordinates: body.location,
+        coordinates: location,
       },
     });
-    return this.machineRepo.save(data);
+
+    // set beverages
+    if (beverage_ids) {
+      const beverages = await this.beverageRepo.find({
+        where: {
+          id: In(beverage_ids),
+        },
+      });
+      data.beverages = beverages;
+    }
+
+    await this.machineRepo.save(data);
+
+    // insert stock
+    if (stocks) {
+      const queryRunner = this.dataSource.createQueryRunner();
+      await queryRunner.startTransaction();
+
+      try {
+        for (const s of stocks) {
+          await queryRunner.manager.save(
+            this.machineStockRepo.create({
+              ...s,
+              machine_id: data.id,
+            }),
+          );
+        }
+        await queryRunner.commitTransaction();
+        await queryRunner.release();
+      } catch (err) {
+        console.error(err);
+
+        await queryRunner.rollbackTransaction();
+        await queryRunner.release();
+
+        await this.machineRepo.remove(data);
+
+        throw err;
+      }
+    }
+
+    return data;
   }
 
   findAll(): Promise<Machine[]> {
@@ -70,16 +120,69 @@ export class MachineService {
   }
 
   async findOne(id: string): Promise<Machine> {
-    const data = await this.machineRepo.findOne({ where: { id } });
+    const data = await this.machineRepo.findOne({
+      where: { id },
+      relations: ['beverages', 'beverages.ingredients'],
+    });
     if (!data) {
       throw new HttpException('Invalid category id.', 400);
     }
     return data;
   }
 
-  async update(id: string, body: UpdateCategoryDto): Promise<object> {
-    await this.findOne(id);
-    await this.machineRepo.update(id, body);
+  async update(id: string, body: UpdateMachineDto): Promise<object> {
+    const data = await this.findOne(id);
+    const { beverages: beverage_ids, stocks } = body;
+
+    // set beverages
+    if (beverage_ids) {
+      const beverages = await this.beverageRepo.find({
+        where: {
+          id: In(beverage_ids),
+        },
+      });
+
+      data.beverages = beverages;
+    }
+
+    if (body.title) {
+      data.title = body.title;
+    }
+
+    if (body.location) {
+      data.location = {
+        type: 'Point',
+        coordinates: body.location,
+      };
+    }
+
+    await data.save();
+
+    // insert stock
+    if (stocks) {
+      for (const s of stocks) {
+        const exist = await this.machineStockRepo.findOne({
+          where: {
+            ingredient_id: s.ingredient_id,
+            machine_id: data.id,
+          },
+        });
+        if (!exist) {
+          await this.machineStockRepo.save(
+            this.machineStockRepo.create({
+              ...s,
+              machine_id: data.id,
+            }),
+          );
+        } else {
+          exist.capacity = s.capacity;
+          exist.stock = s.stock;
+
+          await exist.save();
+        }
+      }
+    }
+
     return this.findOne(id);
   }
 
@@ -89,5 +192,34 @@ export class MachineService {
     return {
       success: true,
     };
+  }
+
+  async findBeverages(id: string, categoryId?: string): Promise<Beverage[]> {
+    const machine = await this.findOne(id);
+
+    // get products of machines to matche categoryId
+    const valid_products = categoryId
+      ? machine.beverages.filter((b) => b.category_id === categoryId)
+      : machine.beverages;
+
+    return valid_products;
+  }
+
+  async findMachineStocks(
+    id: string,
+    categoryId?: string,
+  ): Promise<MachineStock[]> {
+    const stocks = await this.machineStockRepo.find({
+      where: {
+        machine_id: id,
+      },
+      relations: ['ingredient'],
+    });
+
+    return stocks;
+  }
+
+  async createOrder(id: string): Promise<any> {
+    console.log(id, ' <------- id');
   }
 }

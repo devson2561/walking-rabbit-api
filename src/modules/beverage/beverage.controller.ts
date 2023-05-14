@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { BeverageService } from './beverage.service';
 import { CreateBeverageDto } from './dto/create-beverage.dto';
@@ -25,6 +26,11 @@ export class BeverageController {
   @Get()
   findAll() {
     return this.beverageService.findAll();
+  }
+
+  @Get('ingredients')
+  findIngredients(@Query('beverages') beverageIds: string[]) {
+    return this.beverageService.findIngredientsOfBeverages(beverageIds ?? []);
   }
 
   @Get(':id')
